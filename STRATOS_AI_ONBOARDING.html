@@ -20,20 +20,39 @@
             --danger: #ef4444;
             --bg: #ffffff;
             --bg-secondary: #f9fafb;
+            --bg-card: #ffffff;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --border: #e5e7eb;
             --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --code-bg: #1e293b;
+            --code-text: #f8fafc;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --primary-light: #1e3a8a;
+            --code-bg: #020617;
+            --code-text: #f8fafc;
         }
 
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
                 --bg: #0f172a;
                 --bg-secondary: #1e293b;
+                --bg-card: #1e293b;
                 --text-primary: #f1f5f9;
                 --text-secondary: #cbd5e1;
                 --border: #334155;
+                --primary-light: #1e3a8a;
+                --code-bg: #020617;
+                --code-text: #f8fafc;
             }
         }
 
@@ -48,9 +67,10 @@
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem 2rem 2rem;
             text-align: center;
             box-shadow: var(--shadow-lg);
+            position: relative;
         }
 
         .header h1 {
@@ -64,10 +84,126 @@
             opacity: 0.95;
         }
 
+        .header-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .progress-bar-container {
+            max-width: 600px;
+            margin: 1.25rem auto 0 auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 0.25rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .progress-bar-fill {
+            height: 10px;
+            background: var(--success);
+            border-radius: 0.75rem;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            margin-top: 0.35rem;
+            opacity: 0.9;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+        }
+
+        /* Configurator Panel */
+        .configurator-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .configurator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .configurator-header h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .configurator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            transition: max-height 0.3s ease;
+        }
+
+        .config-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .config-input-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .config-input-group input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            transition: border-color 0.2s;
+        }
+
+        .config-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
         .nav-tabs {
@@ -95,6 +231,7 @@
         .nav-tabs button.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
+            font-weight: 600;
         }
 
         .nav-tabs button:hover {
@@ -136,6 +273,7 @@
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             transition: all 0.3s;
+            position: relative;
         }
 
         .step-card:hover {
@@ -167,6 +305,28 @@
         .step-header h3 {
             font-size: 1.25rem;
             margin: 0;
+            flex-grow: 1;
+        }
+
+        .step-check-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .step-check-btn.completed {
+            background: #dcfce7;
+            color: #166534;
+            border-color: var(--success);
         }
 
         .step-description {
@@ -189,7 +349,8 @@
         .method-delete { background-color: #fee2e2; color: #b91c1c; }
 
         .code-block {
-            background: var(--bg);
+            background: var(--code-bg);
+            color: var(--code-text);
             border: 1px solid var(--border);
             border-radius: 0.5rem;
             padding: 1rem;
@@ -200,21 +361,26 @@
             margin-bottom: 1rem;
         }
 
+        .code-block pre {
+            margin: 0;
+        }
+
         .code-block code {
-            color: var(--text-primary);
+            color: inherit;
         }
 
         .copy-btn {
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 0.375rem;
             cursor: pointer;
             font-size: 0.85rem;
+            font-weight: 600;
             transition: all 0.3s;
             z-index: 10;
         }
@@ -240,6 +406,10 @@
             color: var(--primary-dark);
         }
 
+        [data-theme="dark"] .auth-setup h4 {
+            color: #93c5fd;
+        }
+
         .env-var {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -259,7 +429,7 @@
         }
 
         .card {
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 0.75rem;
             padding: 1.5rem;
@@ -281,20 +451,15 @@
             font-size: 0.95rem;
         }
 
-        .request-response {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
         @media (max-width: 768px) {
-            .request-response {
-                grid-template-columns: 1fr;
-            }
-
             .header h1 {
                 font-size: 1.75rem;
+            }
+
+            .header-controls {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
             }
 
             .nav-tabs {
@@ -304,6 +469,10 @@
             .step-header {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .step-check-btn {
+                align-self: flex-start;
             }
         }
 
@@ -323,18 +492,8 @@
             color: var(--primary);
             font-size: 0.95rem;
             margin-bottom: 0.75rem;
+            border: 1px solid var(--border);
         }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .status-success { background: #dcfce7; color: #166534; }
-        .status-pending { background: #fef3c7; color: #92400e; }
 
         .footer {
             background: var(--bg-secondary);
@@ -352,7 +511,7 @@
 
         .checklist li {
             padding: 0.75rem;
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border-left: 3px solid var(--primary);
             margin-bottom: 0.75rem;
             border-radius: 0.375rem;
@@ -377,9 +536,18 @@
             color: #92400e;
         }
 
+        [data-theme="dark"] .warning-box {
+            background: #451a03;
+            color: #fef08a;
+        }
+
         .warning-box h4 {
             color: #b45309;
             margin-bottom: 0.5rem;
+        }
+
+        [data-theme="dark"] .warning-box h4 {
+            color: #fde047;
         }
 
         .success-box {
@@ -391,27 +559,53 @@
             color: #166534;
         }
 
+        [data-theme="dark"] .success-box {
+            background: #064e3b;
+            color: #a7f3d0;
+        }
+
         .success-box h4 {
             color: #15803d;
             margin-bottom: 0.5rem;
+        }
+
+        [data-theme="dark"] .success-box h4 {
+            color: #6ee7b7;
         }
 
         .tabs-wrapper {
             margin-bottom: 1.5rem;
         }
 
-        .syntax-highlight {
-            color: var(--primary);
+        .tab-navigation-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
         }
 
-        .json-key { color: var(--primary); }
-        .json-string { color: var(--success); }
-        .json-number { color: var(--warning); }
+        button.btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button.btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
 
         button.primary {
             background: var(--primary);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border: none;
             border-radius: 0.375rem;
             cursor: pointer;
@@ -424,20 +618,104 @@
             background: var(--primary-dark);
         }
 
-        .icon {
-            display: inline-block;
-            width: 1.5rem;
-            height: 1.5rem;
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
     <div class="header">
+        <div class="header-controls">
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+            </button>
+        </div>
         <h1>🚀 Stratos AI Platform</h1>
         <p>Complete Integration & Onboarding Guide</p>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+            <div class="progress-text" id="progressText">0 of 7 API Flow Steps Completed (0%)</div>
+        </div>
     </div>
 
     <div class="container">
+        <!-- Interactive Configurator -->
+        <div class="configurator-panel">
+            <div class="configurator-header" onclick="toggleConfigurator()">
+                <h3>🛠️ Interactive Parameter Configurator</h3>
+                <span id="configuratorToggleIcon" style="font-weight: bold;">[ Expand / Collapse ]</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                Customize your API values below. All code snippets, curl commands, and environment variables in this guide will update automatically!
+            </p>
+            <div class="configurator-grid" id="configuratorGrid">
+                <div class="config-input-group">
+                    <label for="cfgApiBase">API Base URL</label>
+                    <input type="text" id="cfgApiBase" value="http://localhost:5012" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgSupabaseUrl">Supabase URL</label>
+                    <input type="text" id="cfgSupabaseUrl" value="https://your-project.supabase.co" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgSupabaseKey">Supabase Anon Key</label>
+                    <input type="text" id="cfgSupabaseKey" value="your-supabase-anon-key" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgEmail">User Email</label>
+                    <input type="text" id="cfgEmail" value="kiran.kumar8@ltts.com" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgAccessToken">Access Token (JWT)</label>
+                    <input type="text" id="cfgAccessToken" value="eyJhbGciOiJFUzI1NiIsImtpZCI6ImM4OWJlYm..." oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgEnrollToken">Enroll Token</label>
+                    <input type="text" id="cfgEnrollToken" value="hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgAgentName">Agent Name</label>
+                    <input type="text" id="cfgAgentName" value="claims-bot-langchain" oninput="updateSnippetParameters()">
+                </div>
+                <div class="config-input-group">
+                    <label for="cfgAgentId">Agent ID</label>
+                    <input type="text" id="cfgAgentId" value="0d732f9a-36e4-4cce-a872-39b04b564d6b" oninput="updateSnippetParameters()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search topics, endpoints, parameters, or code snippets..." oninput="handleSearch()">
+        </div>
+
         <div class="tabs-wrapper">
             <div class="nav-tabs">
                 <button class="nav-btn active" data-tab="overview">Overview</button>
@@ -516,6 +794,11 @@
                     </p>
                 </div>
             </div>
+
+            <div class="tab-navigation-footer">
+                <div></div>
+                <button class="primary" onclick="switchTab('setup')">Next: Setup Guide →</button>
+            </div>
         </div>
 
         <!-- SETUP TAB -->
@@ -539,16 +822,16 @@
 
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'env1')">Copy</button>
-                        <pre id="env1" style="margin: 0;"><code># Supabase Configuration
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=eyJhbGc...your-anon-key
+                        <pre id="env1"><code># Supabase Configuration
+SUPABASE_URL={{SUPABASE_URL}}
+SUPABASE_ANON_KEY={{SUPABASE_ANON_KEY}}
 
 # API Configuration
-API_BASE_URL=http://localhost:5012
+API_BASE_URL={{API_BASE_URL}}
 API_TIMEOUT=30000
 
 # Authentication
-USER_EMAIL=your-email@example.com
+USER_EMAIL={{USER_EMAIL}}
 USER_PASSWORD=your-password
 
 # Agent Configuration
@@ -577,7 +860,7 @@ COST_BUDGET=100.0</code></pre>
                     </p>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'health-test')">Copy</button>
-                        <pre id="health-test" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/health \
+                        <pre id="health-test"><code>curl -X GET {{API_BASE_URL}}/api/health \
   -H "Content-Type: application/json"</code></pre>
                     </div>
                     <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.95rem;">
@@ -635,11 +918,11 @@ COST_BUDGET=100.0</code></pre>
                     </p>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'auth-request')">Copy</button>
-                        <pre id="auth-request" style="margin: 0;"><code>curl -X POST "https://your-project.supabase.co/auth/v1/token?grant_type=password" \
+                        <pre id="auth-request"><code>curl -X POST "{{SUPABASE_URL}}/auth/v1/token?grant_type=password" \
   -H "Content-Type: application/json" \
-  -H "apikey: your-supabase-anon-key" \
+  -H "apikey: {{SUPABASE_ANON_KEY}}" \
   -d '{
-    "email": "your-email@example.com",
+    "email": "{{USER_EMAIL}}",
     "password": "your-password"
   }'</code></pre>
                     </div>
@@ -649,14 +932,19 @@ COST_BUDGET=100.0</code></pre>
                     </p>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'auth-response')">Copy</button>
-                        <pre id="auth-response" style="margin: 0;"><code>{
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                        <pre id="auth-response"><code>{
+  "access_token": "{{ACCESS_TOKEN}}",
   "token_type": "bearer",
   "expires_in": 3600,
   "refresh_token": "..."
 }</code></pre>
                     </div>
                 </div>
+            </div>
+
+            <div class="tab-navigation-footer">
+                <button class="btn-secondary" onclick="switchTab('overview')">← Overview</button>
+                <button class="primary" onclick="switchTab('api-flow')">Next: API Flow →</button>
             </div>
         </div>
 
@@ -665,17 +953,18 @@ COST_BUDGET=100.0</code></pre>
             <div class="section">
                 <h2 class="section-title">🔄 Complete API Flow</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Follow these steps in order to complete the full onboarding process. Each step builds on the previous one.
+                    Follow these steps in order to complete the full onboarding process. Mark steps as complete as you work through them!
                 </p>
 
                 <!-- Step 1: Health Check -->
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">1</div>
-                        <div>
-                            <h3>Health Check</h3>
-                            <span class="method-badge method-get">GET</span>
-                        </div>
+                        <h3>Health Check</h3>
+                        <span class="method-badge method-get">GET</span>
+                        <button class="step-check-btn" id="btn-step-1" onclick="toggleStepCompleted(1)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Verify the API is running and accessible.</p>
 
@@ -684,13 +973,13 @@ COST_BUDGET=100.0</code></pre>
                     <div class="label">Request:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step1-request')">Copy</button>
-                        <pre id="step1-request" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/health</code></pre>
+                        <pre id="step1-request"><code>curl -X GET {{API_BASE_URL}}/api/health</code></pre>
                     </div>
 
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step1-response')">Copy</button>
-                        <pre id="step1-response" style="margin: 0;"><code>{
+                        <pre id="step1-response"><code>{
   "ok": true,
   "sample_rows": 1,
   "usingServiceKey": true,
@@ -703,43 +992,44 @@ COST_BUDGET=100.0</code></pre>
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">2</div>
-                        <div>
-                            <h3>Authenticate User</h3>
-                            <span class="method-badge method-post">POST</span>
-                        </div>
+                        <h3>Authenticate User</h3>
+                        <span class="method-badge method-post">POST</span>
+                        <button class="step-check-btn" id="btn-step-2" onclick="toggleStepCompleted(2)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Obtain JWT token using email and password credentials.</p>
 
-                    <div class="endpoint">{{supabaseUrl}}/auth/v1/token?grant_type=password</div>
+                    <div class="endpoint">{{SUPABASE_URL}}/auth/v1/token?grant_type=password</div>
 
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step2-headers')">Copy</button>
-                        <pre id="step2-headers" style="margin: 0;"><code>Content-Type: application/json
-apikey: {{supabaseAnonKey}}</code></pre>
+                        <pre id="step2-headers"><code>Content-Type: application/json
+apikey: {{SUPABASE_ANON_KEY}}</code></pre>
                     </div>
 
                     <div class="label">Request Body:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step2-body')">Copy</button>
-                        <pre id="step2-body" style="margin: 0;"><code>{
-  "email": "kiran.kumar8@ltts.com",
-  "password": "zxcvbnm"
+                        <pre id="step2-body"><code>{
+  "email": "{{USER_EMAIL}}",
+  "password": "your-password"
 }</code></pre>
                     </div>
 
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step2-response')">Copy</button>
-                        <pre id="step2-response" style="margin: 0;"><code>{
-  "access_token": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImM4OWJlYm...",
+                        <pre id="step2-response"><code>{
+  "access_token": "{{ACCESS_TOKEN}}",
   "token_type": "bearer",
   "expires_in": 3600,
   "expires_at": 1788379228,
   "refresh_token": "2umsycskx3uu",
   "user": {
     "id": "92a6ba39-65b1-4697-9b15-46b4bab8b45f",
-    "email": "kiran.kumar8@ltts.com",
+    "email": "{{USER_EMAIL}}",
     "email_confirmed_at": "2026-07-09T10:11:49.339876Z",
     "confirmed_at": "2026-07-09T10:11:49.339876Z",
     "role": "authenticated"
@@ -757,10 +1047,11 @@ apikey: {{supabaseAnonKey}}</code></pre>
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">3</div>
-                        <div>
-                            <h3>Get Current User Profile</h3>
-                            <span class="method-badge method-get">GET</span>
-                        </div>
+                        <h3>Get Current User Profile</h3>
+                        <span class="method-badge method-get">GET</span>
+                        <button class="step-check-btn" id="btn-step-3" onclick="toggleStepCompleted(3)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Retrieve the authenticated user's profile information.</p>
 
@@ -769,13 +1060,13 @@ apikey: {{supabaseAnonKey}}</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step3-headers')">Copy</button>
-                        <pre id="step3-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                        <pre id="step3-headers"><code>Authorization: Bearer {{ACCESS_TOKEN}}</code></pre>
                     </div>
 
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step3-response')">Copy</button>
-                        <pre id="step3-response" style="margin: 0;"><code>{
+                        <pre id="step3-response"><code>{
   "org_id": "f772f582-8589-4421-9d34-fb17e2b0ef85",
   "org_name": "LTTS",
   "availableOrgs": [
@@ -804,10 +1095,11 @@ apikey: {{supabaseAnonKey}}</code></pre>
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">4</div>
-                        <div>
-                            <h3>Fetch Organization Units</h3>
-                            <span class="method-badge method-get">GET</span>
-                        </div>
+                        <h3>Fetch Organization Units</h3>
+                        <span class="method-badge method-get">GET</span>
+                        <button class="step-check-btn" id="btn-step-4" onclick="toggleStepCompleted(4)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Retrieve the hierarchical organization structure including all teams and departments.</p>
 
@@ -821,13 +1113,13 @@ apikey: {{supabaseAnonKey}}</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step4-headers')">Copy</button>
-                        <pre id="step4-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                        <pre id="step4-headers"><code>Authorization: Bearer {{ACCESS_TOKEN}}</code></pre>
                     </div>
 
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step4-response')">Copy</button>
-                        <pre id="step4-response" style="margin: 0;"><code>{
+                        <pre id="step4-response"><code>{
   "units": [...],
   "tree": [
     {
@@ -875,10 +1167,11 @@ apikey: {{supabaseAnonKey}}</code></pre>
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">5</div>
-                        <div>
-                            <h3>Create Agent</h3>
-                            <span class="method-badge method-post">POST</span>
-                        </div>
+                        <h3>Create Agent</h3>
+                        <span class="method-badge method-post">POST</span>
+                        <button class="step-check-btn" id="btn-step-5" onclick="toggleStepCompleted(5)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Register a new AI agent with configuration and budget parameters.</p>
 
@@ -887,39 +1180,21 @@ apikey: {{supabaseAnonKey}}</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step5-headers')">Copy</button>
-                        <pre id="step5-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}
+                        <pre id="step5-headers"><code>Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json</code></pre>
                     </div>
 
                     <div class="label">Request Body (Option A - with org_unit_id):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step5-body-a')">Copy</button>
-                        <pre id="step5-body-a" style="margin: 0;"><code>{
-  "name": "claims-bot-langchain",
+                        <pre id="step5-body-a"><code>{
+  "name": "{{AGENT_NAME}}",
   "description": "Handles insurance claims with Langchain",
   "type": "agent",
   "env": "prod",
   "framework": "langchain",
   "cost_budget": 100.0,
   "model": "gpt-4o",
-  "org_unit_id": "f751f6eb-47d3-41de-9b55-066d87e3880a",
-  "disable_alert_emails": ["alerts@company.com"],
-  "disable_jira_webhook_url": "https://jira.company.com/rest/api/2/issue"
-}</code></pre>
-                    </div>
-
-                    <div class="label">Request Body (Option B - with team):</div>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyToClipboard(this, 'step5-body-b')">Copy</button>
-                        <pre id="step5-body-b" style="margin: 0;"><code>{
-  "name": "claims-bot-langchain",
-  "description": "Handles insurance claims with Langchain",
-  "type": "agent",
-  "env": "prod",
-  "framework": "langchain",
-  "cost_budget": 100.0,
-  "model": "gpt-4o",
-  "team": "Operations",
   "org_unit_id": "f751f6eb-47d3-41de-9b55-066d87e3880a",
   "disable_alert_emails": ["alerts@company.com"],
   "disable_jira_webhook_url": "https://jira.company.com/rest/api/2/issue"
@@ -929,10 +1204,10 @@ Content-Type: application/json</code></pre>
                     <div class="label">Response (201 Created):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step5-response')">Copy</button>
-                        <pre id="step5-response" style="margin: 0;"><code>{
+                        <pre id="step5-response"><code>{
   "agent": {
-    "id": "0d732f9a-36e4-4cce-a872-39b04b564d6b",
-    "name": "claims-bot-langchain",
+    "id": "{{AGENT_ID}}",
+    "name": "{{AGENT_NAME}}",
     "status": "pending",
     "env": "prod",
     "team": "devops",
@@ -942,8 +1217,8 @@ Content-Type: application/json</code></pre>
     "created_at": "2026-09-02T19:04:34.929018+00:00"
   },
   "enroll": {
-    "token": "hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67",
-    "enroll_url": "http://localhost:5012/onboard/hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67",
+    "token": "{{ENROLL_TOKEN}}",
+    "enroll_url": "{{API_BASE_URL}}/onboard/{{ENROLL_TOKEN}}",
     "steps": [
       {
         "title": "1. Install the Stratos SDK",
@@ -953,7 +1228,7 @@ Content-Type: application/json</code></pre>
       {
         "title": "2. Add to agent's .env",
         "lang": "env",
-        "code": "STRATOS_TOKEN=hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67\nSTRATOS_URL=http://localhost:5012\nSTRATOS_APP_NAME=claims-bot-langchain"
+        "code": "STRATOS_TOKEN={{ENROLL_TOKEN}}\nSTRATOS_URL={{API_BASE_URL}}\nSTRATOS_APP_NAME={{AGENT_NAME}}"
       }
     ]
   }
@@ -969,87 +1244,15 @@ Content-Type: application/json</code></pre>
                     </div>
                 </div>
 
-                <!-- Step 6 & 7: Check Agent Status -->
+                <!-- Step 6: Heartbeat -->
                 <div class="step-card">
                     <div class="step-header">
-                        <div class="step-number">6-7</div>
-                        <div>
-                            <h3>Check Agent Status</h3>
-                            <span class="method-badge method-get">GET</span>
-                        </div>
-                    </div>
-                    <p class="step-description">Monitor agent status as it transitions from pending to active.</p>
-
-                    <div class="endpoint">/api/agents/{agentID}</div>
-
-                    <div class="label">Request Headers:</div>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-headers')">Copy</button>
-                        <pre id="step6-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
-                    </div>
-
-                    <div class="label">Response - Pending Status (200 OK):</div>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-response-pending')">Copy</button>
-                        <pre id="step6-response-pending" style="margin: 0;"><code>{
-  "agent": {
-    "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
-    "name": "claims-bot-langchain",
-    "status": "pending",
-    "model": "gpt-4o",
-    "framework": "langchain",
-    "created_at": "2026-09-02T18:12:56.577815+00:00",
-    "last_seen": null
-  }
-}</code></pre>
-                    </div>
-
-                    <div class="label">Response - Online Status (200 OK):</div>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-response-active')">Copy</button>
-                        <pre id="step6-response-active" style="margin: 0;"><code>{
-  "agent": {
-    "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
-    "name": "claims-bot-langchain",
-    "status": "online",
-    "model": "gpt-4o",
-    "framework": "google-adk",
-    "created_at": "2026-09-02T18:12:56.577815+00:00",
-    "last_seen": "2026-09-02T19:06:11.129+00:00"
-  },
-  "executions": [
-    {
-      "id": "trace-uuid",
-      "started_at": "2026-09-02T18:32:50.804485+00:00",
-      "model": "gpt-4o",
-      "tokens": 675,
-      "cost": 0.001125,
-      "latency_ms": 10000
-    }
-  ],
-  "summary": {
-    "count": 2,
-    "tokens": 675,
-    "cost": 0.001125,
-    "avg_latency": 5787
-  }
-}</code></pre>
-                    </div>
-
-                    <div class="warning-box" style="margin-top: 1rem;">
-                        <h4>⏱️ Timing Note</h4>
-                        Agent transitions from pending to active when it sends first heartbeat. Keep checking status until active.
-                    </div>
-                </div>
-
-                <!-- Step 8: Heartbeat -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">8</div>
-                        <div>
-                            <h3>Send Heartbeat</h3>
-                            <span class="method-badge method-post">POST</span>
-                        </div>
+                        <div class="step-number">6</div>
+                        <h3>Send Heartbeat</h3>
+                        <span class="method-badge method-post">POST</span>
+                        <button class="step-check-btn" id="btn-step-6" onclick="toggleStepCompleted(6)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Signal that the agent is running and operational. Should be sent periodically.</p>
 
@@ -1058,14 +1261,14 @@ Content-Type: application/json</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step8-headers')">Copy</button>
-                        <pre id="step8-headers" style="margin: 0;"><code>x-stratos-token: {{enrollToken}}
+                        <pre id="step8-headers"><code>x-stratos-token: {{ENROLL_TOKEN}}
 Content-Type: application/json</code></pre>
                     </div>
 
                     <div class="label">Request Body:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step8-body')">Copy</button>
-                        <pre id="step8-body" style="margin: 0;"><code>{
+                        <pre id="step8-body"><code>{
   "framework": "langchain",
   "model": "gpt-4o"
 }</code></pre>
@@ -1074,26 +1277,22 @@ Content-Type: application/json</code></pre>
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step8-response')">Copy</button>
-                        <pre id="step8-response" style="margin: 0;"><code>{
+                        <pre id="step8-response"><code>{
   "ok": true,
   "blocked": false
 }</code></pre>
                     </div>
-
-                    <div class="success-box" style="margin-top: 1rem;">
-                        <h4>📡 Recommended</h4>
-                        Send heartbeat every 5-10 minutes to maintain active status.
-                    </div>
                 </div>
 
-                <!-- Step 9: Ingest Telemetry -->
+                <!-- Step 7: Ingest Telemetry -->
                 <div class="step-card">
                     <div class="step-header">
-                        <div class="step-number">9</div>
-                        <div>
-                            <h3>Ingest Telemetry Data</h3>
-                            <span class="method-badge method-post">POST</span>
-                        </div>
+                        <div class="step-number">7</div>
+                        <h3>Ingest Telemetry Data</h3>
+                        <span class="method-badge method-post">POST</span>
+                        <button class="step-check-btn" id="btn-step-7" onclick="toggleStepCompleted(7)">
+                            <span class="step-check-icon">◯</span> Mark Complete
+                        </button>
                     </div>
                     <p class="step-description">Send OpenTelemetry formatted span data for observability and tracking.</p>
 
@@ -1102,20 +1301,20 @@ Content-Type: application/json</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step9-headers')">Copy</button>
-                        <pre id="step9-headers" style="margin: 0;"><code>x-stratos-token: {{enrollToken}}
+                        <pre id="step9-headers"><code>x-stratos-token: {{ENROLL_TOKEN}}
 Content-Type: application/json</code></pre>
                     </div>
 
                     <div class="label">Request Body (OpenTelemetry Format):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step9-body')">Copy</button>
-                        <pre id="step9-body" style="margin: 0;"><code>{
+                        <pre id="step9-body"><code>{
   "resourceSpans": [{
     "resource": {
       "attributes": [
         {
           "key": "service.name",
-          "value": { "stringValue": "claims-bot" }
+          "value": { "stringValue": "{{AGENT_NAME}}" }
         }
       ]
     },
@@ -1150,7 +1349,7 @@ Content-Type: application/json</code></pre>
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step9-response')">Copy</button>
-                        <pre id="step9-response" style="margin: 0;"><code>{
+                        <pre id="step9-response"><code>{
   "partialSuccess": {}
 }</code></pre>
                     </div>
@@ -1159,7 +1358,6 @@ Content-Type: application/json</code></pre>
                 <!-- Step 10: Get Metrics -->
                 <div class="step-card">
                     <div class="step-header">
-                        <div class="step-number">10</div>
                         <div>
                             <h3>Retrieve Metrics</h3>
                             <span class="method-badge method-get">GET</span>
@@ -1169,22 +1367,16 @@ Content-Type: application/json</code></pre>
 
                     <div class="endpoint">/api/metrics?days=7&groupBy=agent</div>
 
-                    <div class="label">Query Parameters:</div>
-                    <ul class="checklist">
-                        <li><code>days</code> - Number of days to retrieve (e.g., 7, 30)</li>
-                        <li><code>groupBy</code> - Grouping dimension (agent, model, etc.)</li>
-                    </ul>
-
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step10-headers')">Copy</button>
-                        <pre id="step10-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                        <pre id="step10-headers"><code>Authorization: Bearer {{ACCESS_TOKEN}}</code></pre>
                     </div>
 
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step10-response')">Copy</button>
-                        <pre id="step10-response" style="margin: 0;"><code>{
+                        <pre id="step10-response"><code>{
   "groupBy": "agent",
   "daily": [
     { "date": "2026-08-27", "cost": 0.003222 },
@@ -1194,21 +1386,14 @@ Content-Type: application/json</code></pre>
   ],
   "byBucket": [
     {
-      "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
-      "name": "claims-bot-langchain",
+      "id": "{{AGENT_ID}}",
+      "name": "{{AGENT_NAME}}",
       "cost": 0.0015,
       "tokens": 900,
       "queries": 7,
       "inTokens": 600,
       "outTokens": 300,
       "cachedTokens": 0
-    },
-    {
-      "id": "790c030a-eb70-4872-b7e5-b485c68bf385",
-      "name": "claims-bot-langchain",
-      "cost": 0,
-      "tokens": 0,
-      "queries": 3
     }
   ],
   "meta": {
@@ -1225,7 +1410,6 @@ Content-Type: application/json</code></pre>
                 <!-- Step 11: Budget Allocation -->
                 <div class="step-card">
                     <div class="step-header">
-                        <div class="step-number">11</div>
                         <div>
                             <h3>Set Budget Allocation</h3>
                             <span class="method-badge method-put">PUT</span>
@@ -1238,15 +1422,15 @@ Content-Type: application/json</code></pre>
                     <div class="label">Request Headers:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step11-headers')">Copy</button>
-                        <pre id="step11-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}
+                        <pre id="step11-headers"><code>Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json</code></pre>
                     </div>
 
                     <div class="label">Request Body:</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step11-body')">Copy</button>
-                        <pre id="step11-body" style="margin: 0;"><code>{
-  "agent_id": "790c030a-eb70-4872-b7e5-b485c68bf385",
+                        <pre id="step11-body"><code>{
+  "agent_id": "{{AGENT_ID}}",
   "amount": 0.020,
   "period": "monthly",
   "enforce": true
@@ -1256,7 +1440,7 @@ Content-Type: application/json</code></pre>
                     <div class="label">Response (200 OK):</div>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'step11-response')">Copy</button>
-                        <pre id="step11-response" style="margin: 0;"><code>{
+                        <pre id="step11-response"><code>{
   "ok": true,
   "before": 0.02,
   "after": 0.02
@@ -1268,6 +1452,11 @@ Content-Type: application/json</code></pre>
                         Your agent is now fully configured, monitored, and budget-controlled.
                     </div>
                 </div>
+            </div>
+
+            <div class="tab-navigation-footer">
+                <button class="btn-secondary" onclick="switchTab('setup')">← Setup Guide</button>
+                <button class="primary" onclick="switchTab('implementation')">Next: Implementation →</button>
             </div>
         </div>
 
@@ -1287,13 +1476,13 @@ Content-Type: application/json</code></pre>
 
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'sdk-setup')">Copy</button>
-                        <pre id="sdk-setup" style="margin: 0;"><code># 1. Install the Stratos SDK
+                        <pre id="sdk-setup"><code># 1. Install the Stratos SDK
 npm i @intelli-1113/stratos-sdk
 
 # 2. Add to your agent's .env file
-STRATOS_TOKEN=hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67
-STRATOS_URL=http://localhost:5012
-STRATOS_APP_NAME=claims-bot-langchain
+STRATOS_TOKEN={{ENROLL_TOKEN}}
+STRATOS_URL={{API_BASE_URL}}
+STRATOS_APP_NAME={{AGENT_NAME}}
 
 # 3. Option A: Zero-code telemetry (Node.js)
 node --import @intelli-1113/stratos-sdk/register server.js
@@ -1313,7 +1502,7 @@ import "@intelli-1113/stratos-sdk/register";</code></pre>
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">Python Integration</h4>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'python-example')">Copy</button>
-                        <pre id="python-example" style="margin: 0;"><code>import requests
+                        <pre id="python-example"><code>import requests
 import json
 from datetime import datetime, timezone
 
@@ -1362,8 +1551,8 @@ class StratosAgent:
 
 # Usage Example
 agent = StratosAgent(
-    base_url="http://localhost:5012",
-    enroll_token="your-enroll-token"
+    base_url="{{API_BASE_URL}}",
+    enroll_token="{{ENROLL_TOKEN}}"
 )
 
 # Send heartbeat every 5 minutes
@@ -1382,7 +1571,7 @@ span = {
         {"key": "llm.model", "value": {"stringValue": "gpt-4o"}}
     ]
 }
-agent.ingest_telemetry("claims-bot", [span])</code></pre>
+agent.ingest_telemetry("{{AGENT_NAME}}", [span])</code></pre>
                     </div>
                 </div>
 
@@ -1390,7 +1579,7 @@ agent.ingest_telemetry("claims-bot", [span])</code></pre>
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">JavaScript/Node.js Integration</h4>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'js-example')">Copy</button>
-                        <pre id="js-example" style="margin: 0;"><code>import axios from 'axios';
+                        <pre id="js-example"><code>import axios from 'axios';
 
 class StratosAgent {
   constructor(baseUrl, enrollToken) {
@@ -1445,8 +1634,8 @@ class StratosAgent {
 
 // Usage
 const agent = new StratosAgent(
-  'http://localhost:5012',
-  'your-enroll-token'
+  '{{API_BASE_URL}}',
+  '{{ENROLL_TOKEN}}'
 );
 
 // Send heartbeat periodically
@@ -1468,7 +1657,7 @@ const span = {
   ]
 };
 
-agent.ingestTelemetry('claims-bot', [span]);</code></pre>
+agent.ingestTelemetry('{{AGENT_NAME}}', [span]);</code></pre>
                     </div>
                 </div>
 
@@ -1476,7 +1665,7 @@ agent.ingestTelemetry('claims-bot', [span]);</code></pre>
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">Go Integration</h4>
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyToClipboard(this, 'go-example')">Copy</button>
-                        <pre id="go-example" style="margin: 0;"><code>package main
+                        <pre id="go-example"><code>package main
 
 import (
 	"bytes"
@@ -1571,11 +1760,16 @@ func (a *StratosAgent) IngestTelemetry(serviceName string,
 }
 
 func main() {
-	agent := NewStratosAgent("http://localhost:5012", "your-enroll-token")
+	agent := NewStratosAgent("{{API_BASE_URL}}", "{{ENROLL_TOKEN}}")
 	agent.SendHeartbeat("langchain", "gpt-4o")
 }</code></pre>
                     </div>
                 </div>
+            </div>
+
+            <div class="tab-navigation-footer">
+                <button class="btn-secondary" onclick="switchTab('api-flow')">← API Flow</button>
+                <button class="primary" onclick="switchTab('best-practices')">Next: Best Practices →</button>
             </div>
         </div>
 
@@ -1663,7 +1857,7 @@ func main() {
                         </p>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this, 'token-refresh')">Copy</button>
-                            <pre id="token-refresh" style="margin: 0;"><code>const refreshToken = async () => {
+                            <pre id="token-refresh"><code>const refreshToken = async () => {
   const expiresAt = Date.parse(tokenExpiry);
   const now = Date.now();
   const refreshThreshold = 5 * 60 * 1000; // 5 minutes
@@ -1687,7 +1881,7 @@ setInterval(refreshToken, 60000);</code></pre>
                         </p>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this, 'retry-backoff')">Copy</button>
-                            <pre id="retry-backoff" style="margin: 0;"><code>async function retryWithBackoff(
+                            <pre id="retry-backoff"><code>async function retryWithBackoff(
   fn,
   maxRetries = 3,
   initialDelay = 1000
@@ -1725,7 +1919,7 @@ await retryWithBackoff(
                         </p>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this, 'batch-telemetry')">Copy</button>
-                            <pre id="batch-telemetry" style="margin: 0;"><code>class TelemetryBuffer {
+                            <pre id="batch-telemetry"><code>class TelemetryBuffer {
   constructor(agent, batchSize = 10, flushInterval = 30000) {
     this.agent = agent;
     this.spans = [];
@@ -1746,7 +1940,7 @@ await retryWithBackoff(
 
     const spansToSend = this.spans.splice(0);
     try {
-      await this.agent.ingestTelemetry('agent-name', spansToSend);
+      await this.agent.ingestTelemetry('{{AGENT_NAME}}', spansToSend);
       console.log(`Flushed ${spansToSend.length} spans`);
     } catch (error) {
       console.error('Flush failed:', error);
@@ -1762,6 +1956,11 @@ await retryWithBackoff(
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="tab-navigation-footer">
+                <button class="btn-secondary" onclick="switchTab('implementation')">← Implementation</button>
+                <button class="primary" onclick="switchTab('troubleshooting')">Next: Troubleshooting →</button>
             </div>
         </div>
 
@@ -1822,7 +2021,7 @@ await retryWithBackoff(
                         <li>Set STRATOS_TOKEN from the enroll token (NOT access_token)</li>
                         <li>Restart agent with SDK import/flag</li>
                         <li>First heartbeat will transition it to online</li>
-                        <li>Verify server is running: <code>curl http://localhost:5012/api/health</code></li>
+                        <li>Verify server is running: <code>curl {{API_BASE_URL}}/api/health</code></li>
                     </ul>
                 </div>
 
@@ -1846,7 +2045,7 @@ await retryWithBackoff(
                                 <strong>Connectivity</strong> - Can you reach the API?
                                 <div class="code-block" style="margin-top: 0.5rem;">
                                     <button class="copy-btn" onclick="copyToClipboard(this, 'debug-health')">Copy</button>
-                                    <pre id="debug-health" style="margin: 0;"><code>curl -v http://localhost:5012/api/health</code></pre>
+                                    <pre id="debug-health"><code>curl -v {{API_BASE_URL}}/api/health</code></pre>
                                 </div>
                             </li>
 
@@ -1854,8 +2053,8 @@ await retryWithBackoff(
                                 <strong>Authentication</strong> - Is your token valid?
                                 <div class="code-block" style="margin-top: 0.5rem;">
                                     <button class="copy-btn" onclick="copyToClipboard(this, 'debug-token')">Copy</button>
-                                    <pre id="debug-token" style="margin: 0;"><code">curl -X GET http://localhost:5012/api/me \
-  -H "Authorization: Bearer YOUR_TOKEN" \
+                                    <pre id="debug-token"><code>curl -X GET {{API_BASE_URL}}/api/me \
+  -H "Authorization: Bearer {{ACCESS_TOKEN}}" \
   -v</code></pre>
                                 </div>
                             </li>
@@ -1864,8 +2063,8 @@ await retryWithBackoff(
                                 <strong>Agent Status</strong> - What's the actual status?
                                 <div class="code-block" style="margin-top: 0.5rem;">
                                     <button class="copy-btn" onclick="copyToClipboard(this, 'debug-agent')">Copy</button>
-                                    <pre id="debug-agent" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/agents/AGENT_ID \
-  -H "Authorization: Bearer YOUR_TOKEN" \
+                                    <pre id="debug-agent"><code>curl -X GET {{API_BASE_URL}}/api/agents/{{AGENT_ID}} \
+  -H "Authorization: Bearer {{ACCESS_TOKEN}}" \
   -v</code></pre>
                                 </div>
                             </li>
@@ -1874,7 +2073,7 @@ await retryWithBackoff(
                                 <strong>Response Headers</strong> - Check response metadata
                                 <div class="code-block" style="margin-top: 0.5rem;">
                                     <button class="copy-btn" onclick="copyToClipboard(this, 'debug-headers')">Copy</button>
-                                    <pre id="debug-headers" style="margin: 0;"><code">curl -i -X GET http://localhost:5012/api/health</code></pre>
+                                    <pre id="debug-headers"><code>curl -i -X GET {{API_BASE_URL}}/api/health</code></pre>
                                 </div>
                             </li>
 
@@ -1882,7 +2081,7 @@ await retryWithBackoff(
                                 <strong>Request/Response Logging</strong> - Enable detailed logging
                                 <div class="code-block" style="margin-top: 0.5rem;">
                                     <button class="copy-btn" onclick="copyToClipboard(this, 'debug-logging')">Copy</button>
-                                    <pre id="debug-logging" style="margin: 0;"><code">DEBUG=* node your-script.js</code></pre>
+                                    <pre id="debug-logging"><code>DEBUG=* node your-script.js</code></pre>
                                 </div>
                             </li>
                         </ol>
@@ -1900,6 +2099,11 @@ await retryWithBackoff(
                     </ul>
                 </div>
             </div>
+
+            <div class="tab-navigation-footer">
+                <button class="btn-secondary" onclick="switchTab('best-practices')">← Best Practices</button>
+                <div></div>
+            </div>
         </div>
     </div>
 
@@ -1912,33 +2116,154 @@ await retryWithBackoff(
     </div>
 
     <script>
+        // Store original code templates
+        const originalCodeTemplates = {};
+
+        // Onboarding Checklist state
+        const TOTAL_STEPS = 7;
+        let completedSteps = new Set();
+
+        // Configurator toggle state
+        let isConfiguratorExpanded = true;
+
+        function toggleConfigurator() {
+            const grid = document.getElementById('configuratorGrid');
+            const icon = document.getElementById('configuratorToggleIcon');
+            isConfiguratorExpanded = !isConfiguratorExpanded;
+            if (isConfiguratorExpanded) {
+                grid.style.display = 'grid';
+                icon.textContent = '[ Collapse ]';
+            } else {
+                grid.style.display = 'none';
+                icon.textContent = '[ Expand ]';
+            }
+        }
+
         // Tab Navigation
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show target tab
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                const btn = document.querySelector(`.nav-btn[data-tab="${tabName}"]`);
+                if (btn) btn.classList.add('active');
+                window.location.hash = tabName;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
         document.querySelectorAll('.nav-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const tabName = button.getAttribute('data-tab');
-
-                // Hide all tabs
-                document.querySelectorAll('.tab-content').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-
-                // Remove active from all buttons
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-
-                // Show selected tab
-                document.getElementById(tabName).classList.add('active');
-                button.classList.add('active');
+                switchTab(tabName);
             });
         });
 
-        // Copy to Clipboard
+        // Theme Toggle
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('stratos_theme', newTheme);
+            updateThemeUI(newTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            if (theme === 'dark') {
+                if (themeIcon) themeIcon.textContent = '☀️';
+                if (themeText) themeText.textContent = 'Light Mode';
+            } else {
+                if (themeIcon) themeIcon.textContent = '🌙';
+                if (themeText) themeText.textContent = 'Dark Mode';
+            }
+        }
+
+        // Checklist Step Completion
+        function toggleStepCompleted(stepNum) {
+            if (completedSteps.has(stepNum)) {
+                completedSteps.delete(stepNum);
+            } else {
+                completedSteps.add(stepNum);
+            }
+            localStorage.setItem('stratos_completed_steps', JSON.stringify(Array.from(completedSteps)));
+            updateProgressUI();
+        }
+
+        function updateProgressUI() {
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const btn = document.getElementById(`btn-step-${i}`);
+                if (btn) {
+                    if (completedSteps.has(i)) {
+                        btn.classList.add('completed');
+                        btn.innerHTML = '<span class="step-check-icon">✓</span> Completed';
+                    } else {
+                        btn.classList.remove('completed');
+                        btn.innerHTML = '<span class="step-check-icon">◯</span> Mark Complete';
+                    }
+                }
+            }
+
+            const count = completedSteps.size;
+            const pct = Math.round((count / TOTAL_STEPS) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            if (progressBar) progressBar.style.width = `${pct}%`;
+            if (progressText) progressText.textContent = `${count} of ${TOTAL_STEPS} API Flow Steps Completed (${pct}%)`;
+        }
+
+        // Snippet parameter substitution
+        function updateSnippetParameters() {
+            const params = {
+                '{{API_BASE_URL}}': document.getElementById('cfgApiBase').value.trim() || 'http://localhost:5012',
+                '{{SUPABASE_URL}}': document.getElementById('cfgSupabaseUrl').value.trim() || 'https://your-project.supabase.co',
+                '{{SUPABASE_ANON_KEY}}': document.getElementById('cfgSupabaseKey').value.trim() || 'your-supabase-anon-key',
+                '{{USER_EMAIL}}': document.getElementById('cfgEmail').value.trim() || 'your-email@example.com',
+                '{{ACCESS_TOKEN}}': document.getElementById('cfgAccessToken').value.trim() || 'eyJhbGciOiJFUzI1NiIs...',
+                '{{ENROLL_TOKEN}}': document.getElementById('cfgEnrollToken').value.trim() || 'hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67',
+                '{{AGENT_NAME}}': document.getElementById('cfgAgentName').value.trim() || 'claims-bot-langchain',
+                '{{AGENT_ID}}': document.getElementById('cfgAgentId').value.trim() || '0d732f9a-36e4-4cce-a872-39b04b564d6b'
+            };
+
+            for (const [id, originalText] of Object.entries(originalCodeTemplates)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    let updatedText = originalText;
+                    for (const [key, val] of Object.entries(params)) {
+                        updatedText = updatedText.replaceAll(key, val);
+                    }
+                    element.innerHTML = `<code>${escapeHtml(updatedText)}</code>`;
+                }
+            }
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Copy to Clipboard with fallback
         function copyToClipboard(button, elementId) {
             const element = document.getElementById(elementId);
             const text = element.textContent;
 
-            navigator.clipboard.writeText(text).then(() => {
+            const onSuccess = () => {
                 const originalText = button.textContent;
                 button.textContent = '✓ Copied!';
                 button.classList.add('copied');
@@ -1947,8 +2272,49 @@ await retryWithBackoff(
                     button.textContent = originalText;
                     button.classList.remove('copied');
                 }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+            } else {
+                fallbackCopy(text, onSuccess);
+            }
+        }
+
+        function fallbackCopy(text, onSuccess) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                onSuccess();
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        // Search functionality
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.step-card, .card');
+
+            cards.forEach(card => {
+                if (!query) {
+                    card.style.display = '';
+                    return;
+                }
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         }
 
@@ -1961,9 +2327,45 @@ await retryWithBackoff(
             });
         }
 
-        // Initialize first tab as active
+        // Page Initialization
         window.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.nav-btn').classList.add('active');
+            // Save original code template contents
+            document.querySelectorAll('.code-block pre').forEach(pre => {
+                if (pre.id) {
+                    originalCodeTemplates[pre.id] = pre.textContent;
+                }
+            });
+
+            // Restore theme
+            const savedTheme = localStorage.getItem('stratos_theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeUI(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                updateThemeUI('dark');
+            }
+
+            // Restore step completion
+            const savedSteps = localStorage.getItem('stratos_completed_steps');
+            if (savedSteps) {
+                try {
+                    completedSteps = new Set(JSON.parse(savedSteps));
+                } catch (e) {
+                    completedSteps = new Set();
+                }
+            }
+            updateProgressUI();
+
+            // Populate parameters
+            updateSnippetParameters();
+
+            // Hash-based tab switching
+            if (window.location.hash) {
+                const hashTab = window.location.hash.replace('#', '');
+                if (document.getElementById(hashTab)) {
+                    switchTab(hashTab);
+                }
+            }
         });
     </script>
 </body>
