@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratos AI - Complete Onboarding Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --bg-secondary: #1e293b;
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --border: #334155;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .nav-tabs button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tabs button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .nav-tabs button:hover {
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-header h3 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        .method-get { background-color: #dbeafe; color: #1e40af; }
+        .method-post { background-color: #dcfce7; color: #166534; }
+        .method-put { background-color: #fef08a; color: #854d0e; }
+        .method-delete { background-color: #fee2e2; color: #b91c1c; }
+
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .code-block code {
+            color: var(--text-primary);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        .auth-setup {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-setup h4 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .env-var {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            margin: 0.5rem 0;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .request-response {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .request-response {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+
+            .step-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .endpoint {
+            font-family: 'Monaco', monospace;
+            background: var(--bg);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            color: var(--primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-success { background: #dcfce7; color: #166534; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .checklist {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .checklist li {
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--primary);
+            margin-bottom: 0.75rem;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checklist li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #92400e;
+        }
+
+        .warning-box h4 {
+            color: #b45309;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #166534;
+        }
+
+        .success-box h4 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .syntax-highlight {
+            color: var(--primary);
+        }
+
+        .json-key { color: var(--primary); }
+        .json-string { color: var(--success); }
+        .json-number { color: var(--warning); }
+
+        button.primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        button.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .icon {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Stratos AI Platform</h1>
+        <p>Complete Integration & Onboarding Guide</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs-wrapper">
+            <div class="nav-tabs">
+                <button class="nav-btn active" data-tab="overview">Overview</button>
+                <button class="nav-btn" data-tab="setup">Setup Guide</button>
+                <button class="nav-btn" data-tab="api-flow">API Flow</button>
+                <button class="nav-btn" data-tab="implementation">Implementation</button>
+                <button class="nav-btn" data-tab="best-practices">Best Practices</button>
+                <button class="nav-btn" data-tab="troubleshooting">Troubleshooting</button>
+            </div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section">
+                <h2 class="section-title">📋 Platform Overview</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    Stratos AI is a comprehensive platform for managing AI agents, monitoring their performance,
+                    tracking costs, and ingesting telemetry data. This guide walks you through the complete integration process.
+                </p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>🔐 Authentication</h3>
+                        <p>Secure token-based authentication using Supabase. Each request requires a valid JWT token.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🤖 Agent Management</h3>
+                        <p>Create and manage AI agents with custom configurations, budgets, and model preferences.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Monitoring & Metrics</h3>
+                        <p>Real-time monitoring of agent performance with detailed metrics and usage tracking.</p>
+                    </div>
+                    <div class="card">
+                        <h3>💰 Budget Control</h3>
+                        <p>Set and enforce spending limits per agent with flexible allocation strategies.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📡 Telemetry Ingestion</h3>
+                        <p>OpenTelemetry-compatible data ingestion for comprehensive observability.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏢 Organization Units</h3>
+                        <p>Hierarchical organization structure for managing agents across teams and departments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🎯 Key Concepts</h2>
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.75rem;">Access Token (JWT)</h4>
+                    <p style="color: var(--text-secondary); margin: 0;">
+                        A JSON Web Token obtained after authentication. Used to authorize all subsequent API requests.
+                        Tokens have an expiration time and should be refreshed as needed.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.75rem;">Organization Units</h4>
+                    <p style="color: var(--text-secondary); margin: 0;">
+                        Hierarchical containers for organizing agents. Supports nested structure for multi-team environments.
+                        Each agent must belong to an organization unit.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.75rem;">Enroll Token</h4>
+                    <p style="color: var(--text-secondary); margin: 0;">
+                        A temporary token provided by the platform to SDK/agent instances. Used for heartbeat and telemetry ingestion
+                        without requiring full authentication.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.75rem;">Telemetry</h4>
+                    <p style="color: var(--text-secondary); margin: 0;">
+                        OpenTelemetry-formatted span data including execution traces, token usage, model information, and performance metrics.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETUP TAB -->
+        <div id="setup" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">⚙️ Environment Setup</h2>
+
+                <div class="success-box">
+                    <h4>Prerequisites</h4>
+                    <ul class="checklist">
+                        <li>Supabase account with API credentials</li>
+                        <li>API endpoint URL (localhost or production)</li>
+                        <li>Valid user credentials for authentication</li>
+                        <li>Postman or similar API testing tool (optional)</li>
+                    </ul>
+                </div>
+
+                <div class="auth-setup">
+                    <h4>1. Configure Environment Variables</h4>
+                    <p style="margin-bottom: 1rem;">Create a <code>.env.local</code> file in your project root:</p>
+
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'env1')">Copy</button>
+                        <pre id="env1" style="margin: 0;"><code># Supabase Configuration
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=eyJhbGc...your-anon-key
+
+# API Configuration
+API_BASE_URL=http://localhost:5012
+API_TIMEOUT=30000
+
+# Authentication
+USER_EMAIL=your-email@example.com
+USER_PASSWORD=your-password
+
+# Agent Configuration
+DEFAULT_MODEL=gpt-4o
+DEFAULT_FRAMEWORK=langchain
+COST_BUDGET=100.0</code></pre>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">2. Verify Supabase Credentials</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        From your Supabase project dashboard, copy:
+                    </p>
+                    <ul class="checklist">
+                        <li>Project URL (SUPABASE_URL)</li>
+                        <li>Anon Public Key (SUPABASE_ANON_KEY)</li>
+                        <li>Service Role Secret (for backend use)</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">3. Test Connection</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Run a health check to verify your setup:
+                    </p>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'health-test')">Copy</button>
+                        <pre id="health-test" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/health \
+  -H "Content-Type: application/json"</code></pre>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.95rem;">
+                        ✓ Expected response: <code>200 OK</code>
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🔐 Understanding Token Types</h2>
+
+                <div class="success-box">
+                    <h4>🎯 Two Different Tokens</h4>
+                    <p><strong>Access Token (JWT):</strong> From Supabase auth. Used for management APIs (creating agents, getting metrics, etc.)<br/>
+                    <strong>Enroll Token:</strong> From agent creation. Used by agents for heartbeat and telemetry ingestion. Short-lived, agent-specific.<br/>
+                    <strong>Rule:</strong> Never confuse them! Using wrong token will result in 401 errors.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Access Token</h3>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                            <li>From: Supabase /auth/v1/token</li>
+                            <li>Used by: Control plane / Dashboard</li>
+                            <li>Header: <code>Authorization: Bearer</code></li>
+                            <li>Expires: ~3600 seconds</li>
+                            <li>APIs: Agent mgmt, metrics, budgets</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Enroll Token</h3>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                            <li>From: Agent creation response</li>
+                            <li>Used by: Agent / SDK</li>
+                            <li>Header: <code>x-stratos-token</code></li>
+                            <li>Expires: Long-lived</li>
+                            <li>APIs: Heartbeat, telemetry</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🔑 Getting Your Access Token</h2>
+
+                <div class="warning-box">
+                    <h4>⚠️ Security Note</h4>
+                    Never commit credentials to version control. Use environment variables and .gitignore files.
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Obtain JWT Token</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Exchange your credentials for an access token:
+                    </p>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'auth-request')">Copy</button>
+                        <pre id="auth-request" style="margin: 0;"><code>curl -X POST "https://your-project.supabase.co/auth/v1/token?grant_type=password" \
+  -H "Content-Type: application/json" \
+  -H "apikey: your-supabase-anon-key" \
+  -d '{
+    "email": "your-email@example.com",
+    "password": "your-password"
+  }'</code></pre>
+                    </div>
+
+                    <p style="color: var(--text-secondary); margin-top: 1.5rem; margin-bottom: 1rem;">
+                        Response will contain your access token:
+                    </p>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'auth-response')">Copy</button>
+                        <pre id="auth-response" style="margin: 0;"><code>{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "refresh_token": "..."
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API FLOW TAB -->
+        <div id="api-flow" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">🔄 Complete API Flow</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Follow these steps in order to complete the full onboarding process. Each step builds on the previous one.
+                </p>
+
+                <!-- Step 1: Health Check -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h3>Health Check</h3>
+                            <span class="method-badge method-get">GET</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Verify the API is running and accessible.</p>
+
+                    <div class="endpoint">/api/health</div>
+
+                    <div class="label">Request:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step1-request')">Copy</button>
+                        <pre id="step1-request" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/health</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step1-response')">Copy</button>
+                        <pre id="step1-response" style="margin: 0;"><code>{
+  "ok": true,
+  "sample_rows": 1,
+  "usingServiceKey": true,
+  "ms": 145
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Step 2: Authentication -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h3>Authenticate User</h3>
+                            <span class="method-badge method-post">POST</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Obtain JWT token using email and password credentials.</p>
+
+                    <div class="endpoint">{{supabaseUrl}}/auth/v1/token?grant_type=password</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step2-headers')">Copy</button>
+                        <pre id="step2-headers" style="margin: 0;"><code>Content-Type: application/json
+apikey: {{supabaseAnonKey}}</code></pre>
+                    </div>
+
+                    <div class="label">Request Body:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step2-body')">Copy</button>
+                        <pre id="step2-body" style="margin: 0;"><code>{
+  "email": "kiran.kumar8@ltts.com",
+  "password": "zxcvbnm"
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step2-response')">Copy</button>
+                        <pre id="step2-response" style="margin: 0;"><code>{
+  "access_token": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImM4OWJlYm...",
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "expires_at": 1788379228,
+  "refresh_token": "2umsycskx3uu",
+  "user": {
+    "id": "92a6ba39-65b1-4697-9b15-46b4bab8b45f",
+    "email": "kiran.kumar8@ltts.com",
+    "email_confirmed_at": "2026-07-09T10:11:49.339876Z",
+    "confirmed_at": "2026-07-09T10:11:49.339876Z",
+    "role": "authenticated"
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <h4>💡 Tip</h4>
+                        Save the <code>access_token</code> value. Use it as Bearer token in all subsequent requests.
+                    </div>
+                </div>
+
+                <!-- Step 3: Get Current User -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h3>Get Current User Profile</h3>
+                            <span class="method-badge method-get">GET</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Retrieve the authenticated user's profile information.</p>
+
+                    <div class="endpoint">/api/me</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step3-headers')">Copy</button>
+                        <pre id="step3-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step3-response')">Copy</button>
+                        <pre id="step3-response" style="margin: 0;"><code>{
+  "org_id": "f772f582-8589-4421-9d34-fb17e2b0ef85",
+  "org_name": "LTTS",
+  "availableOrgs": [
+    { "id": "e8d66dc5-5f0a-4698-83dd-10dede39ecf0", "name": "test" },
+    { "id": "236ae14e-4e9b-4e8e-b866-e4989b155016", "name": "dev" },
+    { "id": "f772f582-8589-4421-9d34-fb17e2b0ef85", "name": "LTTS" }
+  ],
+  "isOrgAdmin": true,
+  "license": {
+    "ok": true,
+    "reason": "licensed",
+    "daysLeft": null,
+    "expiresAt": "2036-08-24T10:42:05.681667+00:00"
+  },
+  "org_unit_id": null,
+  "role_name": "Admin",
+  "dataScope": {
+    "mode": "org",
+    "allowOrgWidePicker": true
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Step 4: Get Organization Units -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h3>Fetch Organization Units</h3>
+                            <span class="method-badge method-get">GET</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Retrieve the hierarchical organization structure including all teams and departments.</p>
+
+                    <div class="endpoint">/api/org-units?tree=true</div>
+
+                    <div class="label">Query Parameters:</div>
+                    <ul class="checklist">
+                        <li><code>tree=true</code> - Return nested hierarchy structure</li>
+                    </ul>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step4-headers')">Copy</button>
+                        <pre id="step4-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step4-response')">Copy</button>
+                        <pre id="step4-response" style="margin: 0;"><code>{
+  "units": [...],
+  "tree": [
+    {
+      "id": "ea6631b4-c6cb-4d43-93f6-880fbd64e935",
+      "org_id": "f772f582-8589-4421-9d34-fb17e2b0ef85",
+      "type": "bu",
+      "name": "Automotive",
+      "created_at": "2026-08-14T11:04:26.424101+00:00",
+      "children": []
+    },
+    {
+      "id": "65899ef6-82a2-4d41-8dcf-a3a23676ef1c",
+      "type": "bu",
+      "name": "S&P",
+      "children": [
+        {
+          "id": "e142fae3-3cc9-4f2a-a866-1c6c1d275d82",
+          "type": "team",
+          "name": "Development"
+        },
+        {
+          "id": "f751f6eb-47d3-41de-9b55-066d87e3880a",
+          "type": "team",
+          "name": "devops"
+        },
+        {
+          "id": "9c33a422-3029-4661-a199-180527a15a61",
+          "type": "team",
+          "name": "qa"
+        }
+      ]
+    }
+  ],
+  "counts": { "bu": 4, "team": 3 }
+}</code></pre>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <h4>📌 Important</h4>
+                        Save the org unit ID. You'll need it to create agents.
+                    </div>
+                </div>
+
+                <!-- Step 5: Create Agent -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div>
+                            <h3>Create Agent</h3>
+                            <span class="method-badge method-post">POST</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Register a new AI agent with configuration and budget parameters.</p>
+
+                    <div class="endpoint">/api/agents</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step5-headers')">Copy</button>
+                        <pre id="step5-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}
+Content-Type: application/json</code></pre>
+                    </div>
+
+                    <div class="label">Request Body (Option A - with org_unit_id):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step5-body-a')">Copy</button>
+                        <pre id="step5-body-a" style="margin: 0;"><code>{
+  "name": "claims-bot-langchain",
+  "description": "Handles insurance claims with Langchain",
+  "type": "agent",
+  "env": "prod",
+  "framework": "langchain",
+  "cost_budget": 100.0,
+  "model": "gpt-4o",
+  "org_unit_id": "f751f6eb-47d3-41de-9b55-066d87e3880a",
+  "disable_alert_emails": ["alerts@company.com"],
+  "disable_jira_webhook_url": "https://jira.company.com/rest/api/2/issue"
+}</code></pre>
+                    </div>
+
+                    <div class="label">Request Body (Option B - with team):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step5-body-b')">Copy</button>
+                        <pre id="step5-body-b" style="margin: 0;"><code>{
+  "name": "claims-bot-langchain",
+  "description": "Handles insurance claims with Langchain",
+  "type": "agent",
+  "env": "prod",
+  "framework": "langchain",
+  "cost_budget": 100.0,
+  "model": "gpt-4o",
+  "team": "Operations",
+  "org_unit_id": "f751f6eb-47d3-41de-9b55-066d87e3880a",
+  "disable_alert_emails": ["alerts@company.com"],
+  "disable_jira_webhook_url": "https://jira.company.com/rest/api/2/issue"
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response (201 Created):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step5-response')">Copy</button>
+                        <pre id="step5-response" style="margin: 0;"><code>{
+  "agent": {
+    "id": "0d732f9a-36e4-4cce-a872-39b04b564d6b",
+    "name": "claims-bot-langchain",
+    "status": "pending",
+    "env": "prod",
+    "team": "devops",
+    "model": "gpt-4o",
+    "framework": "langchain",
+    "cost_budget": 100,
+    "created_at": "2026-09-02T19:04:34.929018+00:00"
+  },
+  "enroll": {
+    "token": "hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67",
+    "enroll_url": "http://localhost:5012/onboard/hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67",
+    "steps": [
+      {
+        "title": "1. Install the Stratos SDK",
+        "lang": "bash",
+        "code": "npm i @intelli-1113/stratos-sdk"
+      },
+      {
+        "title": "2. Add to agent's .env",
+        "lang": "env",
+        "code": "STRATOS_TOKEN=hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67\nSTRATOS_URL=http://localhost:5012\nSTRATOS_APP_NAME=claims-bot-langchain"
+      }
+    ]
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <h4>✅ Save These Values</h4>
+                        <ul class="checklist">
+                            <li>Agent <code>id</code> - for future queries</li>
+                            <li><code>enroll_token</code> - for heartbeat and ingest calls</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 6 & 7: Check Agent Status -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">6-7</div>
+                        <div>
+                            <h3>Check Agent Status</h3>
+                            <span class="method-badge method-get">GET</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Monitor agent status as it transitions from pending to active.</p>
+
+                    <div class="endpoint">/api/agents/{agentID}</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-headers')">Copy</button>
+                        <pre id="step6-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                    </div>
+
+                    <div class="label">Response - Pending Status (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-response-pending')">Copy</button>
+                        <pre id="step6-response-pending" style="margin: 0;"><code>{
+  "agent": {
+    "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
+    "name": "claims-bot-langchain",
+    "status": "pending",
+    "model": "gpt-4o",
+    "framework": "langchain",
+    "created_at": "2026-09-02T18:12:56.577815+00:00",
+    "last_seen": null
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response - Online Status (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step6-response-active')">Copy</button>
+                        <pre id="step6-response-active" style="margin: 0;"><code>{
+  "agent": {
+    "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
+    "name": "claims-bot-langchain",
+    "status": "online",
+    "model": "gpt-4o",
+    "framework": "google-adk",
+    "created_at": "2026-09-02T18:12:56.577815+00:00",
+    "last_seen": "2026-09-02T19:06:11.129+00:00"
+  },
+  "executions": [
+    {
+      "id": "trace-uuid",
+      "started_at": "2026-09-02T18:32:50.804485+00:00",
+      "model": "gpt-4o",
+      "tokens": 675,
+      "cost": 0.001125,
+      "latency_ms": 10000
+    }
+  ],
+  "summary": {
+    "count": 2,
+    "tokens": 675,
+    "cost": 0.001125,
+    "avg_latency": 5787
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        <h4>⏱️ Timing Note</h4>
+                        Agent transitions from pending to active when it sends first heartbeat. Keep checking status until active.
+                    </div>
+                </div>
+
+                <!-- Step 8: Heartbeat -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">8</div>
+                        <div>
+                            <h3>Send Heartbeat</h3>
+                            <span class="method-badge method-post">POST</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Signal that the agent is running and operational. Should be sent periodically.</p>
+
+                    <div class="endpoint">/api/heartbeat</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step8-headers')">Copy</button>
+                        <pre id="step8-headers" style="margin: 0;"><code>x-stratos-token: {{enrollToken}}
+Content-Type: application/json</code></pre>
+                    </div>
+
+                    <div class="label">Request Body:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step8-body')">Copy</button>
+                        <pre id="step8-body" style="margin: 0;"><code>{
+  "framework": "langchain",
+  "model": "gpt-4o"
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step8-response')">Copy</button>
+                        <pre id="step8-response" style="margin: 0;"><code>{
+  "ok": true,
+  "blocked": false
+}</code></pre>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <h4>📡 Recommended</h4>
+                        Send heartbeat every 5-10 minutes to maintain active status.
+                    </div>
+                </div>
+
+                <!-- Step 9: Ingest Telemetry -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">9</div>
+                        <div>
+                            <h3>Ingest Telemetry Data</h3>
+                            <span class="method-badge method-post">POST</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Send OpenTelemetry formatted span data for observability and tracking.</p>
+
+                    <div class="endpoint">/api/ingest</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step9-headers')">Copy</button>
+                        <pre id="step9-headers" style="margin: 0;"><code>x-stratos-token: {{enrollToken}}
+Content-Type: application/json</code></pre>
+                    </div>
+
+                    <div class="label">Request Body (OpenTelemetry Format):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step9-body')">Copy</button>
+                        <pre id="step9-body" style="margin: 0;"><code>{
+  "resourceSpans": [{
+    "resource": {
+      "attributes": [
+        {
+          "key": "service.name",
+          "value": { "stringValue": "claims-bot" }
+        }
+      ]
+    },
+    "scopeSpans": [{
+      "scope": { "name": "opentelemetry.instrumentation.langchain" },
+      "spans": [{
+        "traceId": "trace-uuid",
+        "spanId": "span-uuid",
+        "name": "llm.completion",
+        "startTimeUnixNano": "1705316400000000000",
+        "endTimeUnixNano": "1705316410000000000",
+        "attributes": [
+          {
+            "key": "gen_ai.usage.input_tokens",
+            "value": { "intValue": 150 }
+          },
+          {
+            "key": "gen_ai.usage.output_tokens",
+            "value": { "intValue": 75 }
+          },
+          {
+            "key": "llm.model",
+            "value": { "stringValue": "gpt-4o" }
+          }
+        ]
+      }]
+    }]
+  }]
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step9-response')">Copy</button>
+                        <pre id="step9-response" style="margin: 0;"><code>{
+  "partialSuccess": {}
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Step 10: Get Metrics -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">10</div>
+                        <div>
+                            <h3>Retrieve Metrics</h3>
+                            <span class="method-badge method-get">GET</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Query performance metrics and usage statistics for an agent.</p>
+
+                    <div class="endpoint">/api/metrics?days=7&groupBy=agent</div>
+
+                    <div class="label">Query Parameters:</div>
+                    <ul class="checklist">
+                        <li><code>days</code> - Number of days to retrieve (e.g., 7, 30)</li>
+                        <li><code>groupBy</code> - Grouping dimension (agent, model, etc.)</li>
+                    </ul>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step10-headers')">Copy</button>
+                        <pre id="step10-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step10-response')">Copy</button>
+                        <pre id="step10-response" style="margin: 0;"><code>{
+  "groupBy": "agent",
+  "daily": [
+    { "date": "2026-08-27", "cost": 0.003222 },
+    { "date": "2026-08-28", "cost": 0 },
+    { "date": "2026-08-30", "cost": 0.139078 },
+    { "date": "2026-09-02", "cost": 0.0015 }
+  ],
+  "byBucket": [
+    {
+      "id": "761b3f0f-d8cb-4127-b6ee-05d78182e013",
+      "name": "claims-bot-langchain",
+      "cost": 0.0015,
+      "tokens": 900,
+      "queries": 7,
+      "inTokens": 600,
+      "outTokens": 300,
+      "cachedTokens": 0
+    },
+    {
+      "id": "790c030a-eb70-4872-b7e5-b485c68bf385",
+      "name": "claims-bot-langchain",
+      "cost": 0,
+      "tokens": 0,
+      "queries": 3
+    }
+  ],
+  "meta": {
+    "rowCount": 7,
+    "truncated": false,
+    "days": 7,
+    "groupBy": "agent",
+    "tokenBreakdown": true
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Step 11: Budget Allocation -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-number">11</div>
+                        <div>
+                            <h3>Set Budget Allocation</h3>
+                            <span class="method-badge method-put">PUT</span>
+                        </div>
+                    </div>
+                    <p class="step-description">Configure spending limits and budget enforcement policies.</p>
+
+                    <div class="endpoint">/api/budget/allocations</div>
+
+                    <div class="label">Request Headers:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step11-headers')">Copy</button>
+                        <pre id="step11-headers" style="margin: 0;"><code>Authorization: Bearer {{token}}
+Content-Type: application/json</code></pre>
+                    </div>
+
+                    <div class="label">Request Body:</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step11-body')">Copy</button>
+                        <pre id="step11-body" style="margin: 0;"><code>{
+  "agent_id": "790c030a-eb70-4872-b7e5-b485c68bf385",
+  "amount": 0.020,
+  "period": "monthly",
+  "enforce": true
+}</code></pre>
+                    </div>
+
+                    <div class="label">Response (200 OK):</div>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'step11-response')">Copy</button>
+                        <pre id="step11-response" style="margin: 0;"><code>{
+  "ok": true,
+  "before": 0.02,
+  "after": 0.02
+}</code></pre>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <h4>✅ Setup Complete!</h4>
+                        Your agent is now fully configured, monitored, and budget-controlled.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMPLEMENTATION TAB -->
+        <div id="implementation" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">💻 SDK Integration & Setup</h2>
+
+                <div class="success-box">
+                    <h4>🎯 Automatic Setup Instructions</h4>
+                    <p>When you create an agent, the API returns setup instructions. Use these exact steps:</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Quick Start with Stratos SDK</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">After agent creation, you'll receive an enroll token and installation steps. Follow these:</p>
+
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'sdk-setup')">Copy</button>
+                        <pre id="sdk-setup" style="margin: 0;"><code># 1. Install the Stratos SDK
+npm i @intelli-1113/stratos-sdk
+
+# 2. Add to your agent's .env file
+STRATOS_TOKEN=hsM3Cy7UEVB1lGN4REHJ7ku2FIg5lH67
+STRATOS_URL=http://localhost:5012
+STRATOS_APP_NAME=claims-bot-langchain
+
+# 3. Option A: Zero-code telemetry (Node.js)
+node --import @intelli-1113/stratos-sdk/register server.js
+
+# 3. Option B: One-line code change
+# Add to the very top of your entrypoint file:
+import "@intelli-1113/stratos-sdk/register";</code></pre>
+                    </div>
+
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        <h4>⚠️ Important: Agent Activation</h4>
+                        <p>After SDK setup, send your first heartbeat. This transitions the agent from <code>pending</code> → <code>online</code> status.</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Python Integration</h4>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'python-example')">Copy</button>
+                        <pre id="python-example" style="margin: 0;"><code>import requests
+import json
+from datetime import datetime, timezone
+
+class StratosAgent:
+    def __init__(self, base_url: str, enroll_token: str):
+        self.base_url = base_url
+        self.enroll_token = enroll_token
+        self.session = requests.Session()
+        self.session.headers.update({
+            'x-stratos-token': enroll_token,
+            'Content-Type': 'application/json'
+        })
+
+    def send_heartbeat(self, framework: str, model: str):
+        """Send periodic heartbeat to mark agent as active."""
+        response = self.session.post(
+            f"{self.base_url}/api/heartbeat",
+            json={
+                "framework": framework,
+                "model": model
+            }
+        )
+        return response.json()
+
+    def ingest_telemetry(self, service_name: str, spans: list):
+        """Ingest OpenTelemetry formatted spans."""
+        payload = {
+            "resourceSpans": [{
+                "resource": {
+                    "attributes": [{
+                        "key": "service.name",
+                        "value": {"stringValue": service_name}
+                    }]
+                },
+                "scopeSpans": [{
+                    "scope": {"name": "opentelemetry.instrumentation.langchain"},
+                    "spans": spans
+                }]
+            }]
+        }
+        response = self.session.post(
+            f"{self.base_url}/api/ingest",
+            json=payload
+        )
+        return response.json()
+
+# Usage Example
+agent = StratosAgent(
+    base_url="http://localhost:5012",
+    enroll_token="your-enroll-token"
+)
+
+# Send heartbeat every 5 minutes
+agent.send_heartbeat(framework="langchain", model="gpt-4o")
+
+# Log token usage
+span = {
+    "traceId": "trace-123",
+    "spanId": "span-456",
+    "name": "llm.completion",
+    "startTimeUnixNano": str(int(datetime.now(timezone.utc).timestamp() * 1e9)),
+    "endTimeUnixNano": str(int(datetime.now(timezone.utc).timestamp() * 1e9 + 10e9)),
+    "attributes": [
+        {"key": "gen_ai.usage.input_tokens", "value": {"intValue": 150}},
+        {"key": "gen_ai.usage.output_tokens", "value": {"intValue": 75}},
+        {"key": "llm.model", "value": {"stringValue": "gpt-4o"}}
+    ]
+}
+agent.ingest_telemetry("claims-bot", [span])</code></pre>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">JavaScript/Node.js Integration</h4>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'js-example')">Copy</button>
+                        <pre id="js-example" style="margin: 0;"><code>import axios from 'axios';
+
+class StratosAgent {
+  constructor(baseUrl, enrollToken) {
+    this.baseUrl = baseUrl;
+    this.enrollToken = enrollToken;
+    this.client = axios.create({
+      baseURL: baseUrl,
+      headers: {
+        'x-stratos-token': enrollToken,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  async sendHeartbeat(framework, model) {
+    try {
+      const response = await this.client.post('/api/heartbeat', {
+        framework,
+        model
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Heartbeat failed:', error.message);
+      throw error;
+    }
+  }
+
+  async ingestTelemetry(serviceName, spans) {
+    try {
+      const payload = {
+        resourceSpans: [{
+          resource: {
+            attributes: [{
+              key: 'service.name',
+              value: { stringValue: serviceName }
+            }]
+          },
+          scopeSpans: [{
+            scope: { name: 'opentelemetry.instrumentation.langchain' },
+            spans
+          }]
+        }]
+      };
+      const response = await this.client.post('/api/ingest', payload);
+      return response.data;
+    } catch (error) {
+      console.error('Telemetry ingestion failed:', error.message);
+      throw error;
+    }
+  }
+}
+
+// Usage
+const agent = new StratosAgent(
+  'http://localhost:5012',
+  'your-enroll-token'
+);
+
+// Send heartbeat periodically
+setInterval(() => {
+  agent.sendHeartbeat('langchain', 'gpt-4o');
+}, 5 * 60 * 1000);
+
+// Log LLM execution
+const span = {
+  traceId: 'trace-' + Date.now(),
+  spanId: 'span-' + Math.random().toString(36).substr(2, 9),
+  name: 'llm.completion',
+  startTimeUnixNano: String(Date.now() * 1e6),
+  endTimeUnixNano: String((Date.now() + 1000) * 1e6),
+  attributes: [
+    { key: 'gen_ai.usage.input_tokens', value: { intValue: 150 } },
+    { key: 'gen_ai.usage.output_tokens', value: { intValue: 75 } },
+    { key: 'llm.model', value: { stringValue: 'gpt-4o' } }
+  ]
+};
+
+agent.ingestTelemetry('claims-bot', [span]);</code></pre>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Go Integration</h4>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'go-example')">Copy</button>
+                        <pre id="go-example" style="margin: 0;"><code>package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"time"
+)
+
+type StratosAgent struct {
+	baseURL    string
+	enrollToken string
+	client     *http.Client
+}
+
+func NewStratosAgent(baseURL, enrollToken string) *StratosAgent {
+	return &StratosAgent{
+		baseURL:    baseURL,
+		enrollToken: enrollToken,
+		client:     &http.Client{Timeout: 10 * time.Second},
+	}
+}
+
+func (a *StratosAgent) SendHeartbeat(framework, model string) error {
+	payload := map[string]string{
+		"framework": framework,
+		"model":     model,
+	}
+	body, _ := json.Marshal(payload)
+
+	req, _ := http.NewRequest("POST", a.baseURL+"/api/heartbeat",
+		bytes.NewBuffer(body))
+	req.Header.Set("x-stratos-token", a.enrollToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := a.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("heartbeat failed: %s", body)
+	}
+	return nil
+}
+
+func (a *StratosAgent) IngestTelemetry(serviceName string,
+	spans []map[string]interface{}) error {
+	payload := map[string]interface{}{
+		"resourceSpans": []map[string]interface{}{
+			{
+				"resource": map[string]interface{}{
+					"attributes": []map[string]interface{}{
+						{
+							"key": "service.name",
+							"value": map[string]string{"stringValue": serviceName},
+						},
+					},
+				},
+				"scopeSpans": []map[string]interface{}{
+					{
+						"scope": map[string]string{
+							"name": "opentelemetry.instrumentation.langchain",
+						},
+						"spans": spans,
+					},
+				},
+			},
+		},
+	}
+	body, _ := json.Marshal(payload)
+
+	req, _ := http.NewRequest("POST", a.baseURL+"/api/ingest",
+		bytes.NewBuffer(body))
+	req.Header.Set("x-stratos-token", a.enrollToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := a.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("ingest failed: %s", body)
+	}
+	return nil
+}
+
+func main() {
+	agent := NewStratosAgent("http://localhost:5012", "your-enroll-token")
+	agent.SendHeartbeat("langchain", "gpt-4o")
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BEST PRACTICES TAB -->
+        <div id="best-practices" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">⭐ Best Practices & Real-World Insights</h2>
+
+                <div class="success-box">
+                    <h4>💡 Agent Lifecycle</h4>
+                    <p><strong>Pending:</strong> Created but not active. No execution data yet.<br/>
+                    <strong>Online:</strong> Agent is running and sending heartbeats. Execution data available.<br/>
+                    Agent transitions from pending to online when first heartbeat is received.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">🔐 Authentication</h4>
+                        <ul class="checklist">
+                            <li>Always use HTTPS in production</li>
+                            <li>Rotate tokens regularly</li>
+                            <li>Store credentials in secure vaults</li>
+                            <li>Never commit tokens to version control</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">📡 Heartbeat Management</h4>
+                        <ul class="checklist">
+                            <li>Send heartbeat every 5-10 minutes</li>
+                            <li>Implement exponential backoff for retries</li>
+                            <li>Monitor heartbeat failures</li>
+                            <li>Log all heartbeat attempts</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Telemetry</h4>
+                        <ul class="checklist">
+                            <li>Use OpenTelemetry standard format</li>
+                            <li>Include all relevant context (model, framework)</li>
+                            <li>Batch telemetry when possible</li>
+                            <li>Validate data before sending</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">💰 Budget Management</h4>
+                        <ul class="checklist">
+                            <li>Set conservative initial budgets</li>
+                            <li>Monitor spending closely</li>
+                            <li>Use enforcement flags for hard limits</li>
+                            <li>Review budget allocation monthly</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">⚠️ Error Handling</h4>
+                        <ul class="checklist">
+                            <li>Implement retry logic with backoff</li>
+                            <li>Log all errors with context</li>
+                            <li>Handle network timeouts gracefully</li>
+                            <li>Alert on repeated failures</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.75rem;">📈 Monitoring</h4>
+                        <ul class="checklist">
+                            <li>Track API response times</li>
+                            <li>Monitor token usage trends</li>
+                            <li>Set up cost alerts</li>
+                            <li>Use metrics for optimization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔍 Common Patterns</h3>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Token Refresh Strategy</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Implement automatic token refresh before expiration:
+                        </p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyToClipboard(this, 'token-refresh')">Copy</button>
+                            <pre id="token-refresh" style="margin: 0;"><code>const refreshToken = async () => {
+  const expiresAt = Date.parse(tokenExpiry);
+  const now = Date.now();
+  const refreshThreshold = 5 * 60 * 1000; // 5 minutes
+
+  if (expiresAt - now < refreshThreshold) {
+    // Token expires soon, refresh it
+    const newToken = await authenticateUser();
+    saveToken(newToken);
+  }
+};
+
+// Check every minute
+setInterval(refreshToken, 60000);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Retry with Exponential Backoff</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Handle transient failures gracefully:
+                        </p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyToClipboard(this, 'retry-backoff')">Copy</button>
+                            <pre id="retry-backoff" style="margin: 0;"><code>async function retryWithBackoff(
+  fn,
+  maxRetries = 3,
+  initialDelay = 1000
+) {
+  let lastError;
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      const delay = initialDelay * Math.pow(2, i);
+      console.warn(
+        `Attempt ${i + 1} failed, retrying in ${delay}ms...`,
+        error.message
+      );
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
+}
+
+// Usage
+await retryWithBackoff(
+  () => agent.sendHeartbeat('langchain', 'gpt-4o')
+);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Telemetry Batching</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Batch multiple spans for efficient transmission:
+                        </p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyToClipboard(this, 'batch-telemetry')">Copy</button>
+                            <pre id="batch-telemetry" style="margin: 0;"><code>class TelemetryBuffer {
+  constructor(agent, batchSize = 10, flushInterval = 30000) {
+    this.agent = agent;
+    this.spans = [];
+    this.batchSize = batchSize;
+    this.flushInterval = flushInterval;
+    this.startFlushTimer();
+  }
+
+  addSpan(span) {
+    this.spans.push(span);
+    if (this.spans.length >= this.batchSize) {
+      this.flush();
+    }
+  }
+
+  async flush() {
+    if (this.spans.length === 0) return;
+
+    const spansToSend = this.spans.splice(0);
+    try {
+      await this.agent.ingestTelemetry('agent-name', spansToSend);
+      console.log(`Flushed ${spansToSend.length} spans`);
+    } catch (error) {
+      console.error('Flush failed:', error);
+      // Re-add spans to buffer for retry
+      this.spans.unshift(...spansToSend);
+    }
+  }
+
+  startFlushTimer() {
+    setInterval(() => this.flush(), this.flushInterval);
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TROUBLESHOOTING TAB -->
+        <div id="troubleshooting" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">🔧 Troubleshooting Guide</h2>
+
+                <div class="step-card">
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;">❌ 401 Unauthorized</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Cause:</strong> Invalid or expired token</p>
+                    <ul class="checklist">
+                        <li>Verify token is not expired</li>
+                        <li>Check token is correctly formatted (Bearer token)</li>
+                        <li>Re-authenticate to get a new token</li>
+                        <li>Verify Authorization header is set correctly</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;">❌ 400 Bad Request</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Cause:</strong> Malformed request body or missing required fields</p>
+                    <ul class="checklist">
+                        <li>Validate JSON syntax</li>
+                        <li>Check all required fields are present</li>
+                        <li>Verify field data types match schema</li>
+                        <li>Check Content-Type header is application/json</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;">❌ 404 Not Found</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Cause:</strong> Agent or resource doesn't exist</p>
+                    <ul class="checklist">
+                        <li>Verify agent ID is correct and exists</li>
+                        <li>Check API endpoint URL is correct</li>
+                        <li>Verify org_unit_id exists and is accessible</li>
+                        <li>Ensure agent has been fully created (not still pending)</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;">❌ 500 Internal Server Error</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Cause:</strong> Server-side issue</p>
+                    <ul class="checklist">
+                        <li>Check service status and logs</li>
+                        <li>Retry request with exponential backoff</li>
+                        <li>Contact support with request ID</li>
+                        <li>Check for service maintenance announcements</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--warning); margin-bottom: 1rem;">⚠️ Agent Stuck in Pending</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Issue:</strong> Agent shows "pending" status, not transitioning to "online"</p>
+                    <ul class="checklist">
+                        <li>Install the Stratos SDK from the enroll response</li>
+                        <li>Set STRATOS_TOKEN from the enroll token (NOT access_token)</li>
+                        <li>Restart agent with SDK import/flag</li>
+                        <li>First heartbeat will transition it to online</li>
+                        <li>Verify server is running: <code>curl http://localhost:5012/api/health</code></li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 style="color: var(--warning); margin-bottom: 1rem;">⚠️ High Latency</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><strong>Issue:</strong> API responses are slow</p>
+                    <ul class="checklist">
+                        <li>Check network connectivity</li>
+                        <li>Verify API endpoint is healthy (health check)</li>
+                        <li>Check for rate limiting headers</li>
+                        <li>Monitor server resource usage</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">📋 Debug Checklist</h3>
+
+                    <div class="step-card">
+                        <ol style="color: var(--text-primary); padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong>Connectivity</strong> - Can you reach the API?
+                                <div class="code-block" style="margin-top: 0.5rem;">
+                                    <button class="copy-btn" onclick="copyToClipboard(this, 'debug-health')">Copy</button>
+                                    <pre id="debug-health" style="margin: 0;"><code>curl -v http://localhost:5012/api/health</code></pre>
+                                </div>
+                            </li>
+
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong>Authentication</strong> - Is your token valid?
+                                <div class="code-block" style="margin-top: 0.5rem;">
+                                    <button class="copy-btn" onclick="copyToClipboard(this, 'debug-token')">Copy</button>
+                                    <pre id="debug-token" style="margin: 0;"><code">curl -X GET http://localhost:5012/api/me \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -v</code></pre>
+                                </div>
+                            </li>
+
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong>Agent Status</strong> - What's the actual status?
+                                <div class="code-block" style="margin-top: 0.5rem;">
+                                    <button class="copy-btn" onclick="copyToClipboard(this, 'debug-agent')">Copy</button>
+                                    <pre id="debug-agent" style="margin: 0;"><code>curl -X GET http://localhost:5012/api/agents/AGENT_ID \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -v</code></pre>
+                                </div>
+                            </li>
+
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong>Response Headers</strong> - Check response metadata
+                                <div class="code-block" style="margin-top: 0.5rem;">
+                                    <button class="copy-btn" onclick="copyToClipboard(this, 'debug-headers')">Copy</button>
+                                    <pre id="debug-headers" style="margin: 0;"><code">curl -i -X GET http://localhost:5012/api/health</code></pre>
+                                </div>
+                            </li>
+
+                            <li style="margin-bottom: 0;">
+                                <strong>Request/Response Logging</strong> - Enable detailed logging
+                                <div class="code-block" style="margin-top: 0.5rem;">
+                                    <button class="copy-btn" onclick="copyToClipboard(this, 'debug-logging')">Copy</button>
+                                    <pre id="debug-logging" style="margin: 0;"><code">DEBUG=* node your-script.js</code></pre>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h4>📞 Still Need Help?</h4>
+                    <p>If you've gone through this troubleshooting guide and still have issues:</p>
+                    <ul class="checklist">
+                        <li>Check API documentation and changelog</li>
+                        <li>Review recent error logs</li>
+                        <li>Contact support with exact error messages</li>
+                        <li>Include request/response JSON in support ticket</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🚀 Stratos AI Platform | Complete Onboarding Guide</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Last Updated: January 2024 | API Version: v1.0 |
+            <a href="https://docs.stratos-ai.com" style="color: var(--primary); text-decoration: none;">Documentation</a>
+        </p>
+    </div>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+                // Remove active from all buttons
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Show selected tab
+                document.getElementById(tabName).classList.add('active');
+                button.classList.add('active');
+            });
+        });
+
+        // Copy to Clipboard
+        function copyToClipboard(button, elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Mobile-friendly tab scrolling
+        const navTabs = document.querySelector('.nav-tabs');
+        if (navTabs) {
+            navTabs.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                navTabs.scrollLeft += e.deltaY;
+            });
+        }
+
+        // Initialize first tab as active
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.nav-btn').classList.add('active');
+        });
+    </script>
+</body>
+</html>
